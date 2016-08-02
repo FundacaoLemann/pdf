@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="templates/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="templates/assets/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="templates/assets/css/global.css">
+</head>
+<body>
+
+{% include 'header.html' %}
+    {% block content %}{%endblock%}
+{% include 'footer.html' %}
+
+</body>
+</html>
