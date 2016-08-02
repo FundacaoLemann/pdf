@@ -33,13 +33,22 @@ class TemplateHandler(object):
         return template
 
     def main(self, *args, **kwargs):
-        template = self._get_template('default.html')
+        template = self._get_template('barchart.html')
         template_data = {
             "former": {
                 "name": "Judite Aparecida",
                 "email": "judite.aparecida@email.com"
             },
-            "created_at": datetime.now()
+            "created_at": datetime.now(),
+            "REPORT_NAME": "Relatorio Semanal",
+            "DATE_INI": "2016-07-01",
+            "DATE_END": "2016-08-01",
+            "CHART_NAME": "% de alunos que acessaram a plataforma",
+            "IMG": {
+                "src": "{TMPL_DIR}/assets/sample/output.png".format(TMPL_DIR=self.TEMPLATE_DIR),
+                "width": "100%",
+                "title": "Numero de alunos que acessaram a plataforma",
+            }
         }
         rendered = template.render(**template_data)
         return rendered
