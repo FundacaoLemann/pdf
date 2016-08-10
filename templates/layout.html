@@ -5,12 +5,17 @@
     <link rel="stylesheet" type="text/css" href="templates/assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="templates/assets/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="templates/assets/css/global.css">
+    <meta name=author content="Fundacao Lemann">
+    <meta name=description content="some desc">
+    <meta name=keywords content="education">
+    <meta name="dcterms.created" content="2014-12-05"/>
 </head>
 <body>
 
 {% include 'header.html' %}
-    {% block content %}{%endblock%}
-{% include 'footer.html' %}
+{% include 'report_header.html' %}
+{% block content %}{%endblock%}
+{% include 'footer.html' %}	
 
 </body>
 </html>
