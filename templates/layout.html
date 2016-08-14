@@ -2,9 +2,9 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="templates/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="templates/assets/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="templates/assets/css/global.css">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/assets/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ROOT}}/assets/css/global.css">
     <meta name=author content="Fundacao Lemann">
     <meta name=description content="some desc">
     <meta name=keywords content="education">
@@ -13,7 +13,6 @@
 <body>
 
 {% include 'header.html' %}
-{% include 'report_header.html' %}
 {% block content %}{%endblock%}
 {% include 'footer.html' %}	
 
