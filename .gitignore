@@ -1,0 +1,10 @@
+**.settings
+.project
+.pydevproject
+*.pyc
+*.DS_Store
+*.dat
+*.ipynb_checkpoints*
+*.png
+*.tde
+*.yml
