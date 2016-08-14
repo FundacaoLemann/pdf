@@ -1,30 +1,41 @@
 import pandas as pd
+from ContentChartHandler import ContentChartHandler
+from ContentTableHandler import ContentTableHandler
+from datetime import datetime
+
 
 class ContentHandler(object):
-	
-	"""docstring for ContentHandler"""
-	
-	def __init__(self, file_path):
-		super(ContentHandler, self).__init__()
-		self.DF = self._get_dataframe(file_path)
-		self.DF_SUM = self._get_dataframe_sum()
-	
-	def _get_dataframe(self, file_path):
-		df = pd.read_csv(file_path, delimiter='|')
-		return df
-
-	def _get_dataframe_sum(self):
-		df_sum = pd.DataFrame(data=self.DF.sum())
-		return df_sum
-
-	def _get_df_html(self, df, **kwargs):
-		html_out = df.to_html(**kwargs).replace('border="1"','border="0"')
-		return html_out
-
-	def get_table_html(self):
-		df_html = self._get_df_html(self.DF, index=False, classes='table table-striped detailed')
-		df_sum_html = self._get_df_html(self.DF_SUM, header=False, classes='table meta-info')
-		return locals()
+    
+    """Gets a CSV file_path as input"""
+    
+    def __init__(self, report_code, configs):
+        super(ContentHandler, self).__init__()
+        self._configs = configs
 
 
-# print ContentHandler('./data_sample.table.csv').get_table_html()
+    def get_tables(self):
+        tables = self._configs['TABLES']
+        results = []
+        for table_configs in tables:
+            result = ContentTableHandler(**table_configs).get_table()
+            table_configs.update(result)
+            results.append(table_configs)
+        return results
+        pass
+
+
+    def get_charts(self):
+        charts = self._configs['CHARTS']
+        results = []
+        for chart_configs in charts:
+            file_path = ContentChartHandler(**chart_configs).get_plot_image()
+            chart_configs.update({"img_src": file_path})
+            results.append(chart_configs)
+        return results
+
+
+    def get_data(self):
+        self._configs['CHARTS'] = self.get_charts()
+        self._configs['TABLES'] = self.get_tables()
+        self._configs['CREATED_AT'] = datetime.now()
+        return self._configs
