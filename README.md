@@ -1,6 +1,8 @@
-# PDF
+# Easy PDF
 
-*Still improving*
+This module intends to provide an easy way of distributing data through pdf reports. It is specially usefull when you need to distribute information that will be discussed offline and outside the boundaries of your institution.
+
+To start we think that PDF reports will be composed of charts and tables. 
 
 ## Setup
 
