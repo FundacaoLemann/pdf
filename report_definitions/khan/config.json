@@ -12,7 +12,7 @@
     "CHARTS": [
         {
             "title": "Second image",
-            "src": "path/to/pdf/data_sample.bar_chart.csv",
+            "src": "data_sample.bar_chart.csv",
             "x_label": "X LABEL",
             "y_label": "% USUARIOS"
         }
@@ -20,7 +20,7 @@
     "TABLES": [
         {
             "title": "Second Table",
-            "src": "path/to/pdf/data_sample.table.csv"
+            "src":"data_sample.table.csv"
         }
     ]
 }
