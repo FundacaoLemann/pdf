@@ -16,13 +16,14 @@ class PdfGenerator(object):
     The goal is to generate the pdf given a 'report_name' and a date reference
     """
 
-    def __init__(self, report_code, date):
+    def __init__(self, report_code, date, global_config):
         super(PdfGenerator, self).__init__()
         self.html_temp_file = tempfile.mkstemp(suffix='.html')[1]
         self.pdf_temp_file = tempfile.mkstemp(suffix='.pdf')[1]
         self.report_code = report_code
         self.date = date
-        self._config = ConfigHandler(self.report_code).get_configs_json(
+        self.global_config = global_config
+        self._config = ConfigHandler(self.report_code, self.global_config).get_configs_json(
             self.date)
         self._template = TemplateHandler(self.report_code)
         self._content = ContentHandler(self.report_code, self._config)
