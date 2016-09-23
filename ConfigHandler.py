@@ -8,22 +8,20 @@ class ConfigHandler(JinjaBaseClass):
     """The goal of this class is to manipulate templates and generate it's
     outputs """
 
-    #TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'report_definitions')
+    TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'report_definitions')
 
-    def __init__(self, config_name, global_config_path):
+    def __init__(self, config_name, global_config_dir):
         super(ConfigHandler, self).__init__()
         self.config_name = config_name
-        if global_config_path == '':
-            self.global_config_path = os.path.join(os.path.dirname(__file__), 'report_definitions', self.config_name, 'config.json')
-        else:
-            self.global_config_path = global_config_path
+        if global_config_dir != '':
+            self.__class__.TEMPLATE_DIR = global_config_dir
 
     def __repr__(self):
         return "<ConfigHandler object: '{}'>".format(self.config_name)
 
 
     def _get_template_rendered(self, data, *args, **kwargs):
-        template = self._get_template(self.global_config_path)
+        template = self._get_template(os.path.join(self.config_name, 'config.json'))
         rendered = template.render(**data)
         return rendered
 
