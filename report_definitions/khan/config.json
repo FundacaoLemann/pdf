@@ -1,5 +1,6 @@
 {
     "REPORT_TITLE": "Relatorio Semanal Khan",
+    "REPORT_NAME": "khan_report_weekly_{{REF_DATE_NODASH}}",
     "FORMER": {
         "name": "Judite Aparecida",
         "email": "judite.aparecida@email.com"
