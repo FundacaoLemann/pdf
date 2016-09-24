@@ -1,12 +1,12 @@
-from weasyprint import HTML
-import tempfile
 import logging
+import os
+from weasyprint import HTML
 from TemplateHandler import TemplateHandler
 from ContentHandler import ContentHandler
 from ConfigHandler import ConfigHandler
 
 
-weasyprint_logger=logging.getLogger('weasyprint')
+weasyprint_logger = logging.getLogger('weasyprint')
 weasyprint_logger.setLevel(logging.ERROR)
 
 
@@ -16,14 +16,15 @@ class PdfGenerator(object):
     The goal is to generate the pdf given a 'report_name' and a date reference
     """
 
-    def __init__(self, report_code, date):
+    def __init__(self, report_code, date, **kwargs):
         super(PdfGenerator, self).__init__()
-        self.html_temp_file = tempfile.mkstemp(suffix='.html')[1]
-        self.pdf_temp_file = tempfile.mkstemp(suffix='.pdf')[1]
         self.report_code = report_code
         self.date = date
+        self._KWARGS = kwargs
         self._config = ConfigHandler(self.report_code).get_configs_json(
             self.date)
+        self.html_temp_file = self._get_output_filepath('.html')
+        self.pdf_temp_file = self._get_output_filepath('.pdf')
         self._template = TemplateHandler(self.report_code)
         self._content = ContentHandler(self.report_code, self._config)
         self.logger = logging.getLogger(__name__)
@@ -31,11 +32,44 @@ class PdfGenerator(object):
             self.report_code))
 
     def __repr__(self):
-        return '<PdfGenerator object ({}, {})>'.format(self.report_code,
+        return '<PdfGenerator object ({}, {})>'.format(
+            self.report_code,
             self.date)
 
+    def _get_output_filepath(self, extension):
+        filename = "{}{}".format(self._config.get('REPORT_NAME'), extension)
+        filepath = os.path.join(self.report_path, filename)
+        return filepath
+
+    def _get_root_path(self):
+        path = None
+        if 'path' in self._KWARGS.keys():
+            path = self._KWARGS.get('path')
+        else:
+            path = os.path.join(os.path.dirname(__file__))
+        assert path is not None, "Somehow the root_path is not set"
+        return path
+
+    @property
+    def root_path(self):
+        return self._get_root_path()
+
+    @property
+    def report_path(self):
+        result = os.path.join(self.root_path, self.report_code)
+        return result
+
+    def ensure_report_dir(self):
+        if os.path.isdir(self.report_path):
+            return True
+        else:
+            os.makedirs(self.report_path)
+            return True
 
     def generate(self):
+        # ensure the report dir
+        self.ensure_report_dir()
+
         self.logger.info('getting data...')
         data = self._content.get_data()
 
@@ -56,4 +90,3 @@ class PdfGenerator(object):
 
     def get_output_file(self):
         return self.pdf_temp_file
-
