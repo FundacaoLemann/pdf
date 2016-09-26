@@ -15,7 +15,6 @@ class ContentTableHandler(object):
     
 
     def _get_dataframe(self):
-        # TODO: use read_gbq()
         self.DF = pd.read_csv(self.src, delimiter='|')
         return self.DF
 
