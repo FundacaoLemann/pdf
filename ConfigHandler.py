@@ -10,11 +10,11 @@ class ConfigHandler(JinjaBaseClass):
 
     TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'report_definitions')
 
-    def __init__(self, config_name, global_config_dir):
+    def __init__(self, config_name):
         super(ConfigHandler, self).__init__()
         self.config_name = config_name
-        if global_config_dir != '':
-            self.__class__.TEMPLATE_DIR = global_config_dir
+        #if global_config_dir != '':
+        #    self.__class__.TEMPLATE_DIR = global_config_dir
 
     def __repr__(self):
         return "<ConfigHandler object: '{}'>".format(self.config_name)
