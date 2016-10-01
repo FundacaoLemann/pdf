@@ -1,17 +1,17 @@
 import pandas as pd
+import os
 from ContentChartHandler import ContentChartHandler
 from ContentTableHandler import ContentTableHandler
 from datetime import datetime
 
 
 class ContentHandler(object):
-    
+
     """Gets a CSV file_path as input"""
-    
+
     def __init__(self, report_code, configs):
         super(ContentHandler, self).__init__()
         self._configs = configs
-
 
     def get_tables(self):
         tables = self._configs['TABLES']
@@ -23,7 +23,6 @@ class ContentHandler(object):
         return results
         pass
 
-
     def get_charts(self):
         charts = self._configs['CHARTS']
         results = []
@@ -33,9 +32,11 @@ class ContentHandler(object):
             results.append(chart_configs)
         return results
 
-
     def get_data(self):
+        OLD_PWD = os.getcwd()
+        os.chdir(self._configs.get('ROOT_PATH'))
         self._configs['CHARTS'] = self.get_charts()
         self._configs['TABLES'] = self.get_tables()
         self._configs['CREATED_AT'] = datetime.now()
+        os.chdir(OLD_PWD)
         return self._configs
