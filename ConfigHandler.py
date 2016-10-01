@@ -8,26 +8,33 @@ class ConfigHandler(JinjaBaseClass):
     """The goal of this class is to manipulate templates and generate it's
     outputs """
 
-    TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'report_definitions')
+    TEMPLATE_DIR = os.path.join(
+        os.path.dirname(__file__), 'report_definitions')
 
-    def __init__(self, config_name):
+    def __init__(self, config_name, date, *args, **kwargs):
         super(ConfigHandler, self).__init__()
         self.config_name = config_name
-        #if global_config_dir != '':
-        #    self.__class__.TEMPLATE_DIR = global_config_dir
+        self._KWARGS = kwargs
+        self.date = date
+        self._global_configs = self._get_global_configs()
 
     def __repr__(self):
         return "<ConfigHandler object: '{}'>".format(self.config_name)
 
+    def _get_global_configs(self):
+        result = None
+        if 'global_configs' in self._KWARGS.keys():
+            result = self._KWARGS.get('global_configs')
+        return result
 
-    def _get_template_rendered(self, data, *args, **kwargs):
-        template = self._get_template(os.path.join(self.config_name, 'config.json'))
+    def _get_template_rendered(self, file, data, *args, **kwargs):
+        template = self._get_template(file)
         rendered = template.render(**data)
         return rendered
 
-    def _get_config_data(self, date):
-        date_ini = self._get_date_timedelta(date, -7)
-        date_end = self._get_date_timedelta(date, 0)
+    def _get_config_data(self,):
+        date_ini = self._get_date_timedelta(self.date, -7)
+        date_end = self._get_date_timedelta(self.date, 0)
         data = {
             "REPORT_CODE": self.config_name,
             "REF_DATE": date_end,
@@ -37,11 +44,30 @@ class ConfigHandler(JinjaBaseClass):
         }
         return data
 
-
-    def get_configs(self, date):
-        data = self._get_config_data(date)
-        result = self._get_template_rendered(data)
+    def get_specific_configs(self):
+        file = "{}{}".format(self.config_name, '.json')
+        data = self._get_config_data()
+        result = self._get_template_rendered(file, data)
         return result
 
-    def get_configs_json(self, date):
-        return json.loads(self.get_configs(date))
+    def get_global_configs(self):
+        file = "{}_global{}".format(self.config_name, '.json')
+        # TODO: allow the user to set the global_config instead of impose
+        # the standard '{report_code}_global.json'
+        # if os.path.isfile(self._global_configs): # this throwing exception
+        #     file = os.path.basename(self._global_configs)
+        data = self._get_config_data()
+        result = self._get_template_rendered(file, data)
+        return result
+
+    def get_configs_json(self):
+        configs = dict()
+
+        if self._global_configs:
+            global_configs = json.loads(self.get_global_configs())
+            configs.update(global_configs)
+
+        specific_configs = json.loads(self.get_specific_configs())
+        configs.update(specific_configs)
+
+        return configs
