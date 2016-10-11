@@ -1,7 +1,7 @@
 import os
 import click
 from PdfGenerator import PdfGenerator
-
+import sys
 
 @click.group()
 def cli():
@@ -46,3 +46,4 @@ def generate(ctx, report_code, date, **kwargs):
 
 if __name__ == '__main__':
     cli()
+    sys.exit(0)
