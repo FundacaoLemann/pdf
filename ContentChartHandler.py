@@ -31,7 +31,7 @@ class ContentChartHandler(object):
             'figsize': (14, 7),
             'grid': True,
             'color': "#339966",
-            'rot': 0
+            'rot': 90
         }
 
         plot = df.plot(**params)
