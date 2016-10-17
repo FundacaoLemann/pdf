@@ -21,7 +21,13 @@ class ContentChartHandler(object):
         output = tempfile.mkstemp(suffix='.png')[1]
 
         # TODO: use read_gbq()
-        df = pd.read_csv(self.src, delimiter='|', index_col=[0], header=0)
+        try:
+            df = pd.read_csv(self.src, delimiter='|', index_col=[0], header=0)
+        except Exception as e:
+            if isinstance(e, IOError):
+                exception = IOError("{}. Please make sure we are using absolute paths".format(e.message))
+            raise exception
+
 
         # generate the plot
         params = {
@@ -37,7 +43,7 @@ class ContentChartHandler(object):
         plot = df.plot(**params)
 
         # annotate the values above the bars
-        for idx, label in enumerate(list(df.index)): 
+        for idx, label in enumerate(list(df.index)):
             for acc in df.columns:
                 value = np.round(df.ix[idx][acc], decimals=2)
                 plot.annotate(value, (idx, value), xytext=(0, 15), textcoords='offset points')
@@ -51,4 +57,4 @@ class ContentChartHandler(object):
         fig.savefig(output)
 
         return output
-        
+

@@ -17,14 +17,25 @@ class ConfigHandler(JinjaBaseClass):
         self._KWARGS = kwargs
         self.date = date
         self._global_configs = self._get_global_configs()
+        self._global_configs_file = self._get_global_configs_file()
 
     def __repr__(self):
         return "<ConfigHandler object: '{}'>".format(self.config_name)
 
     def _get_global_configs(self):
         result = None
-        if 'global_configs' in self._KWARGS.keys():
-            result = self._KWARGS.get('global_configs')
+        if 'global_configs' in self._KWARGS.keys() or\
+                'global_configs_file' in self._KWARGS.keys():
+            result = True
+        return result
+
+    def _get_global_configs_file(self):
+        result = None
+        if self._global_configs:
+            if 'global_configs_file' in self._KWARGS.keys():
+                result = self._KWARGS.get('global_configs_file')
+            else:
+                result = "{}_global{}".format(self.config_name, '.json')
         return result
 
     def _get_template_rendered(self, file, data, *args, **kwargs):
@@ -51,7 +62,7 @@ class ConfigHandler(JinjaBaseClass):
         return result
 
     def get_global_configs(self):
-        file = "{}_global{}".format(self.config_name, '.json')
+        file = self._get_global_configs_file()
         # TODO: allow the user to set the global_config instead of impose
         # the standard '{report_code}_global.json'
         # if os.path.isfile(self._global_configs): # this throwing exception

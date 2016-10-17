@@ -24,9 +24,11 @@ pass_context = click.make_pass_decorator(Context, ensure=True)
 @click.argument('report_code')
 @click.argument('date')
 @click.option('--report_path', default=None)
-@click.option('--use_global_config', is_flag=True)
+@click.option('--use_global_config', is_flag=True)  # TODO: remove this flag
+@click.option('--global_config', default=None, type=click.Path(exists=True))
 @pass_context
-def generate(ctx, report_code, date, report_path, use_global_config, **kwargs):
+def generate(ctx, report_code, date, report_path, use_global_config,
+             global_config, **kwargs):
 
     """
     The reports are generated inside a folder with the 'report_code' as \
@@ -38,7 +40,8 @@ def generate(ctx, report_code, date, report_path, use_global_config, **kwargs):
         'report_code': report_code,
         'date': date,
         'path': path,
-        'use_global_config': use_global_config
+        'use_global_config': use_global_config,
+        'global_config': global_config
     }
     pdf = PdfGenerator(**params)
     pdf.generate()

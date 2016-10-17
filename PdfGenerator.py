@@ -54,9 +54,16 @@ class PdfGenerator(object):
             'config_name': self.report_code,
             'date': self.date
         }
+
         if 'use_global_config' in self._KWARGS.keys():
             params.update({
                 'global_configs': self._KWARGS.get('use_global_config')
+                })
+
+        if 'global_config' in self._KWARGS.keys() and \
+                self._KWARGS.get('global_configs') is not None:
+            params.update({
+                'global_configs_file': self._KWARGS.get('global_config')
                 })
 
         configs = ConfigHandler(**params).get_configs_json()

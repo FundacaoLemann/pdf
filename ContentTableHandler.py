@@ -2,20 +2,26 @@ import pandas as pd
 
 
 class ContentTableHandler(object):
-    
+
     """Gets a CSV file_path as input"""
     """"""
-    
+
     def __init__(self, title, src, **kwargs):
         super(ContentTableHandler, self).__init__()
         self.title = title
         self.src = src
         self._get_dataframe()
         self._get_dataframe_sum()
-    
+
 
     def _get_dataframe(self):
-        self.DF = pd.read_csv(self.src, delimiter='|')
+        try:
+            self.DF = pd.read_csv(self.src, delimiter='|')
+        except Exception as e:
+            if isinstance(e, IOError):
+                exception = IOError("{}. Please make sure we are using absolute paths".format(e.message))
+            raise exception
+
         return self.DF
 
     def _get_dataframe_sum(self):
