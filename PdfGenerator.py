@@ -57,7 +57,7 @@ class PdfGenerator(object):
 
         if 'use_global_config' in self._KWARGS.keys():
             params.update({
-                'global_configs': self._KWARGS.get('use_global_config')
+                'global_config': self._KWARGS.get('use_global_config')
                 })
 
         if 'global_config' in self._KWARGS.keys() and \
