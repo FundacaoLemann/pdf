@@ -55,11 +55,6 @@ class PdfGenerator(object):
             'date': self.date
         }
 
-        if 'use_global_config' in self._KWARGS.keys():
-            params.update({
-                'global_config': self._KWARGS.get('use_global_config')
-                })
-
         if 'global_config' in self._KWARGS.keys() and \
                 self._KWARGS.get('global_config') is not None:
             params.update({

@@ -16,26 +16,15 @@ class ConfigHandler(JinjaBaseClass):
         self.config_name = config_name
         self._KWARGS = kwargs
         self.date = date
-        self._global_configs = self._get_global_configs()
         self._global_configs_file = self._get_global_configs_file()
 
     def __repr__(self):
         return "<ConfigHandler object: '{}'>".format(self.config_name)
 
-    def _get_global_configs(self):
-        result = None
-        if 'global_configs' in self._KWARGS.keys() or\
-                'global_configs_file' in self._KWARGS.keys():
-            result = True
-        return result
-
     def _get_global_configs_file(self):
         result = None
-        if self._global_configs:
-            if 'global_configs_file' in self._KWARGS.keys():
-                result = self._KWARGS.get('global_configs_file')
-            else:
-                result = "{}_global{}".format(self.config_name, '.json')
+        if 'global_configs_file' in self._KWARGS.keys():
+            result = self._KWARGS.get('global_configs_file')
         return result
 
     def _get_template_rendered(self, file, data, *args, **kwargs):
@@ -74,7 +63,7 @@ class ConfigHandler(JinjaBaseClass):
     def get_configs_json(self):
         configs = dict()
 
-        if self._global_configs:
+        if self._global_configs_file:
             global_configs = json.loads(self.get_global_configs())
             configs.update(global_configs)
 
