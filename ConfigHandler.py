@@ -51,7 +51,7 @@ class ConfigHandler(JinjaBaseClass):
         return result
 
     def get_global_configs(self):
-        file = self._get_global_configs_file()
+        file = os.path.basename(self._get_global_configs_file())
         # TODO: allow the user to set the global_config instead of impose
         # the standard '{report_code}_global.json'
         # if os.path.isfile(self._global_configs): # this throwing exception
