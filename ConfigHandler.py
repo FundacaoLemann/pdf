@@ -66,8 +66,9 @@ class ConfigHandler(JinjaBaseClass):
         if self._global_configs_file:
             global_configs = json.loads(self.get_global_configs())
             configs.update(global_configs)
-
-        specific_configs = json.loads(self.get_specific_configs())
-        configs.update(specific_configs)
-
+        
+        #specific_configs = json.loads(self.get_specific_configs())
+        #print specific_configs
+        #configs.update(specific_configs)
+        #print configs["REPORT_NAME"]
         return configs
