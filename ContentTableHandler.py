@@ -13,6 +13,17 @@ class ContentTableHandler(object):
         self._get_dataframe()
         self._get_dataframe_sum()
 
+    def _prettify_header(self, df):
+        """
+        This method receives a DataFrame and prettifies its header
+        """
+        header = df.columns
+        rename = {}
+        for column in header:
+            rename[column] = (column.title().replace('_',' '))
+        df.rename(columns=rename, inplace=True)
+
+        return df
 
     def _get_dataframe(self):
         try:
@@ -21,11 +32,21 @@ class ContentTableHandler(object):
             if isinstance(e, IOError):
                 exception = IOError("{}. Please make sure we are using absolute paths".format(e.message))
             raise exception
+        
+        self.DF = self._prettify_header(self.DF)
 
         return self.DF
 
     def _get_dataframe_sum(self):
-        self.DF_SUM = pd.DataFrame(data=self.DF.sum())
+
+        columns_types = self.DF.dtypes
+	num_cols = []
+	for index, value in columns_types.iteritems():
+	    if value != 'object':
+	        num_cols.append(index)
+	df_sum = self.DF[num_cols].sum()        
+
+        self.DF_SUM = pd.DataFrame(data=df_sum)
         return self.DF_SUM
 
     def _get_df_html(self, df, **kwargs):
