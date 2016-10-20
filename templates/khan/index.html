@@ -17,14 +17,15 @@
 {% for table in TABLES %}
     <article>
         <h3>{{table.title}}</h3>
-        <div>
-        	{{table.html}}
-        </div>
-        <div>
-        	<h4>somas</h4>
+         <div>
+        	<h4>Resumo</h4>
         	{{table.meta}}
         </div>
-    </article>
+        <div>
+                <h4>Turmas</h4>
+        	{{table.html}}
+        </div>
+   </article>
 {% endfor %}
 
 </div>
