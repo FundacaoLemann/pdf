@@ -21,8 +21,7 @@ class PdfGenerator(object):
         self.report_code = report_code
         self.date = date
         self._KWARGS = kwargs
-        self._config = ConfigHandler(self.report_code).get_configs_json(
-            self.date)
+        self._config = self._get_config()
         self.html_temp_file = self._get_output_filepath('.html')
         self.pdf_temp_file = self._get_output_filepath('.pdf')
         self._template = TemplateHandler(self.report_code)
@@ -49,6 +48,24 @@ class PdfGenerator(object):
             path = os.path.join(os.path.dirname(__file__))
         assert path is not None, "Somehow the root_path is not set"
         return path
+
+    def _get_config(self):
+        params = {
+            'config_name': self.report_code,
+            'date': self.date
+        }
+
+        if 'global_config' in self._KWARGS.keys() and \
+                self._KWARGS.get('global_config') is not None:
+            params.update({
+                'global_configs_file': self._KWARGS.get('global_config')
+                })
+
+        configs = ConfigHandler(**params).get_configs_json()
+
+        configs.update({'ROOT_PATH': self.root_path})
+
+        return configs
 
     @property
     def root_path(self):
