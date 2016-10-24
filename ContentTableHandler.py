@@ -32,7 +32,7 @@ class ContentTableHandler(object):
             if isinstance(e, IOError):
                 exception = IOError("{}. Please make sure we are using absolute paths".format(e.message))
             raise exception
-        
+
         self.DF = self._prettify_header(self.DF)
 
         return self.DF
@@ -40,11 +40,11 @@ class ContentTableHandler(object):
     def _get_dataframe_sum(self):
 
         columns_types = self.DF.dtypes
-	num_cols = []
-	for index, value in columns_types.iteritems():
-	    if value != 'object':
-	        num_cols.append(index)
-	df_sum = self.DF[num_cols].sum()        
+        num_cols = []
+        for index, value in columns_types.iteritems():
+            if value != 'object':
+                num_cols.append(index)
+        df_sum = self.DF[num_cols].sum()
 
         self.DF_SUM = pd.DataFrame(data=df_sum)
         return self.DF_SUM
