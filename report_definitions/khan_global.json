@@ -1,0 +1,21 @@
+{
+    "CREATED_AT": "{{CREATED_AT}}",
+    "REF_DATE": "{{REF_DATE}}",
+    "REF_DATE_NODASH": "{{REF_DATE_NODASH}}",
+    "DATE_INI": "{{DATE_INI}}",
+    "DATE_END": "{{DATE_END}}",
+    "CHARTS": [
+        {
+            "title": "Second image",
+            "src": "data_sample.bar_chart.csv",
+            "x_label": "X LABEL",
+            "y_label": "% USUARIOS"
+        }
+    ],
+    "TABLES": [
+        {
+            "title": "Second Table",
+            "src":"data_sample.table.csv"
+        }
+    ]
+}
