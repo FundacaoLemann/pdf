@@ -14,7 +14,10 @@
     </article>
 {% endfor %}
 
+<p style="page-break-after: always; text-align: center;"></p>
+
 {% for table in TABLES %}
+  <h2>{{REPORT_TITLE}}</h2>
     <article>
         <h3>{{table.title}}</h3>
          <div>
@@ -26,6 +29,7 @@
         	{{table.html}}
         </div>
    </article>
+   {% if not loop.last %}<p style="page-break-after: always; text-align: center;"></p>{% endif %}
 {% endfor %}
 
 </div>
