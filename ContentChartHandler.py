@@ -22,7 +22,7 @@ class ContentChartHandler(object):
 
         # TODO: use read_gbq()
         try:
-            df = pd.read_csv(self.src, delimiter='|', index_col=[0], header=0)
+            df = pd.read_csv(self.src, delimiter='|', encoding = 'utf-8', index_col=[0], header=0)
         except Exception as e:
             if isinstance(e, IOError):
                 exception = IOError("{}. Please make sure we are using absolute paths".format(e.message))
@@ -54,6 +54,7 @@ class ContentChartHandler(object):
 
         # export chart
         fig = plot.get_figure()
+        fig.tight_layout()
         fig.savefig(output)
 
         return output
