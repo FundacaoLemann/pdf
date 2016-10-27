@@ -1,4 +1,5 @@
 import logging
+import io
 import os
 from weasyprint import HTML
 from TemplateHandler import TemplateHandler
@@ -94,7 +95,7 @@ class PdfGenerator(object):
         html_content = self._template._get_template_rendered(data)
 
         self.logger.info('writing the html file...')
-        open(self.html_temp_file, 'w').write(html_content)
+        io.open(self.html_temp_file, 'w', encoding='utf-8').write(html_content)
 
         self.logger.info('exporting the html file to pdf...')
         weasy_html = HTML(self.html_temp_file)
