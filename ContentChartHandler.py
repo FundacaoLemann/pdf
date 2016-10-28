@@ -52,6 +52,10 @@ class ContentChartHandler(object):
         plot.set_ylabel(self.y_label)
         plot.set_xlabel(self.x_label)
 
+        # draw reference line
+        plot.axhline(85, color='g', linestyle='--', lw=1)
+        plot.axhline(50, color='r', linestyle='-', lw=1)
+
         # export chart
         fig = plot.get_figure()
         fig.tight_layout()
