@@ -33,8 +33,8 @@ class ConfigHandler(JinjaBaseClass):
         return rendered
 
     def _get_config_data(self,):
-        date_ini = self._get_date_timedelta(self.date, -7)
-        date_end = self._get_date_timedelta(self.date, 0)
+        date_ini = self._get_date_timedelta(self.date, 0)
+        date_end = self._get_date_timedelta(self.date, 6)
         data = {
             "REPORT_CODE": self.config_name,
             "REF_DATE": date_end,
